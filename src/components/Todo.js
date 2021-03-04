@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Todo = (props) => {
+export default function Todo (props)  {
   return (
     <div
       className={`item ${props.item.completed ? ' completed' : ''}`}
@@ -13,4 +13,3 @@ const Todo = (props) => {
   );
 };
 
-export default Todo;

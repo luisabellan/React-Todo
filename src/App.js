@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 import GoogleFontLoader from 'react-google-font-loader';
@@ -15,23 +15,22 @@ const todoItems = [
 
 let todoItem = '';
 
-class App extends React.Component {
+function App () {
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
 
-  constructor() {
-    super();
-    this.state = {
+  const initialState = {
       todoItems,
       todoItem,
-    };
-  }
+  };
+  const [state,setState] = useState(initialState);
+
 
   // logic here
 
   // Class methods to update state
-  addItem = (e, item) => {
+  const addItem = (e, item) => {
     e.preventDefault();
 
     const newItem = {
@@ -40,16 +39,16 @@ class App extends React.Component {
       completed: false,
     };
 
-    this.setState({
-      todoItems: [...this.state.todoItems, newItem],
+    setState({
+      todoItems: [...state.todoItems, newItem],
     });
   };
 
-  toggleItem = (itemId) => {
+  const toggleItem = (itemId) => {
     // console.log(itemId);
 
-    this.setState({
-      todoItems: this.state.todoItems.map((item) => {
+    setState({
+      todoItems: state.todoItems.map((item) => {
         // console.log(item);
         if (itemId === item.id) {
           return {
@@ -63,19 +62,18 @@ class App extends React.Component {
     });
   };
 
-  clearCompleted = (e) => {
+  const clearCompleted = (e) => {
     e.preventDefault();
-    console.log(this.state.todoItems);
-    this.setState({
+    console.log(state.todoItems);
+    setState({
       // returns the items that haven't been completed and purges
       // the ones that have been completed
-      todoItems: this.state.todoItems.filter(
+      todoItems: state.todoItems.filter(
         (item) => item.completed === false
       ),
     });
   };
 
-  render() {
     return (
       <div className='app-wrapper'>
         <GoogleFontLoader
@@ -95,10 +93,10 @@ class App extends React.Component {
         <h2 style={{ fontFamily: 'Indie Flower', fontSize: '4rem' }}>
           Todo App
         </h2>
-        <TodoForm addItem={this.addItem} clearCompleted={this.clearCompleted} />
+        <TodoForm addItem={addItem} clearCompleted={clearCompleted} />
         <TodoList
-          todoItems={this.state.todoItems}
-          toggleItem={this.toggleItem}
+          todoItems={state.todoItems}
+          toggleItem={toggleItem}
         />
         <footer>
           <p className='copyright'>
@@ -107,7 +105,7 @@ class App extends React.Component {
         </footer>
       </div>
     );
-  }
+
 }
 
 export default App;
