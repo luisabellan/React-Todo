@@ -1,31 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import GoogleFontLoader from 'react-google-font-loader';
 
-class TodoForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
+export default function  TodoForm (props) {
+    const initialState = {
       todoItem1: '',
     };
-  }
+    const [state, setState] = useState(initialState);
 
-  handleChanges = (e) => {
+  const handleChanges = (e) => {
     // update state with each keystroke
     // console.log(e)
-    this.setState({ [e.target.name]: e.target.value });
-    // console.log(this.state);
+    setState({ [e.target.name]: e.target.value });
+    // console.log(state);
   };
 
   // class property to submit form
-  submitItem = (e) => {
+  const submitItem = (e) => {
     e.preventDefault();
-    console.log(this.props);
-    this.props.addItem(e, this.state.todoItem1);
-    this.setState({ todoItem1: '' });
+    console.log(props);
+    props.addItem(e, state.todoItem1);
+    setState({ todoItem1: '' });
   };
 
-  render() {
-    console.log('rendering form', this.state.todoItem);
+    console.log('rendering form', state.todoItem);
 
     return (
       <>
@@ -50,13 +47,13 @@ class TodoForm extends React.Component {
           ]}
           subsets={['cyrillic-ext', 'greek']}
         />
-        <form onSubmit={this.submitItem}>
+        <form onSubmit={submitItem}>
           <input
             type='text'
-            value={this.state.todoItem1}
+            value={state.todoItem1}
             placeholder='Add new task here'
             name='todoItem1'
-            onChange={this.handleChanges}
+            onChange={handleChanges}
             style={{ fontFamily: 'Ubuntu, sans-serif', outline: 'none' }}
           ></input>
           <button
@@ -71,7 +68,7 @@ class TodoForm extends React.Component {
           </button>
           <button
             className='clear-btn'
-            onClick={this.props.clearCompleted}
+            onClick={props.clearCompleted}
             style={{
               fontFamily: 'Jomhuria,sans-serif',
               outline: 'none',
@@ -84,6 +81,5 @@ class TodoForm extends React.Component {
       </>
     );
   }
-}
 
-export default TodoForm;
+
